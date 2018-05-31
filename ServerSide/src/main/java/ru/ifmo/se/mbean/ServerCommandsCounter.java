@@ -1,23 +1,38 @@
 package ru.ifmo.se.mbean;
 
-import ru.ifmo.se.MainPanel;
 import ru.ifmo.se.enums.CommandTypes;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ServerCommandsCounter implements ServerCommandsCounterMBean {
-    private static MainPanel mainPanel;
-    private static Map<CommandTypes, Integer> commandCount = new HashMap<>();
     private static int totalCount = 0;
-
-    ServerCommandsCounter(MainPanel panel){
-        mainPanel = panel;
-    }
+    private static int loadFromFileCount = 0;
+    private static int loadCurrentCount = 0;
+    private static int saveCount = 0;
+    private static int addCount = 0;
+    private static int removeCount = 0;
+    private static int clearCount = 0;
 
     public static void recordCommands(CommandTypes type){
-        commandCount.put(type, commandCount.get(type) + 1);
-        totalCount++;
+        switch (type) {
+            case LOAD_FROM_FILE:
+                loadFromFileCount++;
+                break;
+            case LOAD_CURRENT:
+                loadCurrentCount++;
+                break;
+            case SAVE:
+                saveCount++;
+                break;
+            case ADD:
+                addCount++;
+                break;
+            case CLEAR:
+                clearCount++;
+                break;
+            case REMOVE:
+                removeCount++;
+            default:
+                totalCount++;
+        }
     }
 
     @Override
@@ -27,32 +42,32 @@ public class ServerCommandsCounter implements ServerCommandsCounterMBean {
 
     @Override
     public int loadFromFileCount() {
-        return commandCount.getOrDefault(CommandTypes.LOAD_FROM_FILE, 0);
+        return loadFromFileCount;
     }
 
     @Override
     public int loadCurrentCount() {
-        return commandCount.getOrDefault(CommandTypes.LOAD_CURRENT, 0);
+        return loadCurrentCount;
     }
 
     @Override
     public int saveCount() {
-        return commandCount.getOrDefault(CommandTypes.SAVE, 0);
+        return saveCount;
     }
 
     @Override
     public int clearCount() {
-        return commandCount.getOrDefault(CommandTypes.CLEAR, 0);
+        return clearCount;
     }
 
     @Override
     public int addCount() {
-        return commandCount.getOrDefault(CommandTypes.ADD, 0);
+        return addCount;
     }
 
     @Override
     public int removeCount() {
-        return commandCount.getOrDefault(CommandTypes.REMOVE, 0);
+        return removeCount;
     }
 
 }
