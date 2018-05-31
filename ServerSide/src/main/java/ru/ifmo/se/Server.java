@@ -3,6 +3,7 @@ package ru.ifmo.se;
 import com.google.gson.JsonSyntaxException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.ifmo.se.mbean.ClientCommandCounter;
 
 import java.io.*;
 import java.net.*;
@@ -49,6 +50,7 @@ class Connection extends Thread {
     private String password = "password";
 
     Connection(Socket client){
+        ClientCommandCounter.addClient();
         Connection.filemaker();
         this.client = client;
         try {
@@ -104,9 +106,11 @@ class Connection extends Thread {
                 try {
                     switch (command) {
                         case "data_request":
+                            ClientCommandCounter.addDataRequest();
                             this.giveCollection();
                             break;
                         case "save":
+                            ClientCommandCounter.addSaveRequest();
                             this.clear();
                             this.getCollection();
                             break;
