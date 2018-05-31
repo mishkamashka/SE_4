@@ -6,8 +6,7 @@ public class ClientCommandCounter implements ClientCommandCounterMBean{
     static int dataRequestCounter=0;
     static int saveCounter=0;
 
-    ClientCommandCounter(){
-    }
+    public ClientCommandCounter(){}
 
     public static void addClient(){
         clientCounter++;
