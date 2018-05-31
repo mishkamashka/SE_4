@@ -1,5 +1,8 @@
 package ru.ifmo.se;
 
+import ru.ifmo.se.enums.CommandTypes;
+import ru.ifmo.se.mbean.ServerCommandsCounter;
+
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -93,6 +96,7 @@ public class MainPanel extends JFrame {
                 } catch (IOException e){
                     e.printStackTrace();
                 }
+                ServerCommandsCounter.recordCommands(CommandTypes.LOAD_FROM_FILE);
                 updateTree();
             }
         });
@@ -101,6 +105,7 @@ public class MainPanel extends JFrame {
         jMenuItem.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a) {
                 updateTree();
+                ServerCommandsCounter.recordCommands(CommandTypes.LOAD_CURRENT);
             }
         });
         menu.add(jMenuItem);
@@ -108,6 +113,7 @@ public class MainPanel extends JFrame {
         jMenuItem.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a) {
                 Connection.saveOnQuit();
+                ServerCommandsCounter.recordCommands(CommandTypes.SAVE);
             }
         });
         menu.add(jMenuItem);
@@ -115,6 +121,7 @@ public class MainPanel extends JFrame {
         jMenuItem.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a) {
                 Connection.clear();
+                ServerCommandsCounter.recordCommands(CommandTypes.CLEAR);
                 updateTree();
             }
         });
@@ -133,6 +140,7 @@ public class MainPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String string = textField.getText();
                 resLabel.setText(Connection.addObject(string));
+                ServerCommandsCounter.recordCommands(CommandTypes.ADD);
                 updateTree();
             }
         });
@@ -142,6 +150,7 @@ public class MainPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String string = textField.getText();
                 resLabel.setText(Connection.removeGreater(string));
+                ServerCommandsCounter.recordCommands(CommandTypes.REMOVE);
                 updateTree();
             }
         });
