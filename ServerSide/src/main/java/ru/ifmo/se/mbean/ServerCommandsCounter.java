@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServerCommandsCounter implements ServerCommandsCounterMBean {
-    private MainPanel mainPanel;
-    private Map<CommandTypes, Integer> commandCount = new HashMap<>();
-    int totalCount = 0;
+    private static MainPanel mainPanel;
+    private static Map<CommandTypes, Integer> commandCount = new HashMap<>();
+    private static int totalCount = 0;
 
     ServerCommandsCounter(MainPanel panel){
         mainPanel = panel;
     }
 
-    public void recordCommands(CommandTypes type){
+    public static void recordCommands(CommandTypes type){
         commandCount.put(type, commandCount.get(type) + 1);
         totalCount++;
     }
